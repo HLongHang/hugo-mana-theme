@@ -4,8 +4,9 @@
 
 (function () {
   function normalizePathname(p) {
-    // Strip language prefix (/en/, /he/) and normalize trailing slash
-    return p.replace(/^\/(en|he)\//, '/').replace(/\/?$/, '/').replace('//', '/');
+    var prefixes = (window.MANA_LANG_PREFIXES || []).join('|');
+    if (prefixes) p = p.replace(new RegExp('^/(' + prefixes + ')/'), '/');
+    return p.replace(/\/?$/, '/').replace('//', '/');
   }
 
   function getMenuIndex(url) {
