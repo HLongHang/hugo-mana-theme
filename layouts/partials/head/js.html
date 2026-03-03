@@ -9,5 +9,6 @@
 {{ $codeBlocks := resources.Get "js/code-blocks.js" }}
 {{ $blockquotes := resources.Get "js/blockquotes.js" }}
 {{ $languageSwitcher := resources.Get "js/language-switcher.js" }}
-{{ $js := slice $constants $utils $themeToggle $search $scrollToTop $navigation $toc $filters $codeBlocks $blockquotes $languageSwitcher | resources.Concat "js/main.js" | minify | fingerprint }}
+{{ $pageTransitions := resources.Get "js/page-transitions.js" }}
+{{ $js := slice $constants $utils $themeToggle $search $scrollToTop $navigation $toc $filters $codeBlocks $blockquotes $languageSwitcher $pageTransitions | resources.Concat "js/main.js" | minify | fingerprint }}
 <script src="{{ $js.RelPermalink }}" defer></script>
