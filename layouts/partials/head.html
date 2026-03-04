@@ -10,8 +10,12 @@
     const theme = storedTheme || (systemPrefersLight ? "light" : "dark");
     document.documentElement.setAttribute("data-theme", theme);
   })();
+  // Page transition: read direction before any external resources load
+  (function(){var t=sessionStorage.getItem('mana_pt');if(t){document.documentElement.setAttribute('data-page-enter',t);sessionStorage.removeItem('mana_pt');}})();
   // Search index URL for current language (multilingual support)
   window.MANA_SEARCH_INDEX_URL = '{{ "index.json" | relLangURL }}';
+  // Language prefixes for URL normalization in page transitions
+  window.MANA_LANG_PREFIXES = [{{ range $i, $lang := site.Languages }}{{ if $i }},{{ end }}'{{ $lang.Lang }}'{{ end }}];
 </script>
 <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
 <meta
@@ -48,8 +52,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link
   href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-  rel="stylesheet">
-
+  rel="stylesheet"
+  media="print"
+  onload="this.media='all'">
+<noscript>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+</noscript>
 {{ partial "head/css.html" . }}
 
 {{ partial "head/favicon.html" . }}
